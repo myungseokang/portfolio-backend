@@ -1,0 +1,23 @@
+version: "3"
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: portfolio
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+
+  api:
+    build: .
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: mysql+pymysql://user:user@db/portfolio
